@@ -1,3 +1,4 @@
+
 spider2 [![NPM version](https://badge.fury.io/js/spider2.svg)](http://badge.fury.io/js/spider2)
 =========
 
@@ -40,6 +41,8 @@ All the jobs are managed by async queue, so you can keep pushing the urls which 
 # Installation
 ```
 npm install spider2 --production
+npm install iconv-lite
+npm install jquery
 ```
 
 # Programmatic
@@ -71,7 +74,7 @@ The options including:
 This event is emitted when an error has been caught, the arguments including:
 - `err` Error object
 - `req` Request data, if `req.worker` is defined an it is a number, means error is from the worker, `req.worker` is the id of a worker, otherwise it is a normal error.
-Example:
+  Example:
 ```javascript
 spider.on('error', function (err, req) {
   if (req.worker) {
@@ -86,7 +89,7 @@ spider.on('error', function (err, req) {
 Data send by spider are obtained using this event, arguments including:
 - `req` Request data.
 - `res` Response data, if `req._type` equals `Spider.type.LINK`, `res` should be an array, including key-value pairs like `{title: [ANCHOR_TITLE], uri: [ANCHOR_HREF]}`, and if equals `Spider.type.ARTICLE`, `res` should be an object, keys including `title` and `content`.
-Example:
+  Example:
 ```javascript
 spider.on('data', function (req, res) {
   if (req._type == Spider.type.LINK) {
