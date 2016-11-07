@@ -11,9 +11,17 @@ var spider = Spider({
 var fs = require('fs');  
 // 加载编码转换模块  
 var iconv = require('iconv-lite');   
-  
-var baseFilePath = "C:\\Users\\i302473\\Node\\spider2\\examples\\pages";  
+// 加载HTML解析器模块
+var htmlparser = require("htmlparser");
+
+var baseFilePath = ".\\pages";  
 var artical_index = 0;
+
+var mdContent = '';
+var isParagraph = false;
+var isLinkText = false;
+var isCodeText = false;
+
 var $ = require('jquery')(require("jsdom").jsdom().defaultView);
 spider.on('error', function(err, req){
   if (req.worker) {
@@ -22,6 +30,7 @@ spider.on('error', function(err, req){
     console.error(req.uri, err.message);
   }
 });
+
 spider.on('data', function(req, res){
   if (req._type == Spider.type.LINK) {
     spider.read(_.filter(res, validLink));
@@ -77,8 +86,9 @@ function validLink(ele){
   }
   return uri.match(/\d{4,}/i) && !uri.match(/\.(jpg|png|jpeg|pdf)/i) && uri.indexOf('/') != uri.length - 1 && ele.title.length >= 5;
 }
+
 function createFile(file, str){
-	var arr = iconv.encode(str, 'utf-8');
+	var arr = iconv.decode(new Buffer(str), 'utf-8');
 	var content = "---\n";
 	content += "title: " + arr + "\n";
 	content += "date: " + new Date().Format("yyyy-MM-dd hh:mm:ss") + "\n";
@@ -89,51 +99,52 @@ function createFile(file, str){
 	console.log('创建文章：'+str);
 	fs.writeFile(file, content, function(err){
 		if(err)
-			console.log("创建失败 " + err);
+			console.log('创建文件 '+file+' 失败' + err);
 		else
-			console.log("创建文件ok"); 
+			console.log('创建文件 '+file+' 成功'); 
 	});
 }
+
 function writeFile(file, str){  
-    // 把中文转换成字节数组  
-	$("body").append(str);
-	var pageContent = '';
-	
-	$("body").children().each(function(i,n){
-		console.log(n.nodeName);
-		if(n.nodeName.toUpperCase() === "P"){
-			pageContent += this.textContent + "\n";
-		} else if(n.nodeName.toUpperCase() === "blockquote".toUpperCase()){
-		}
-	});
-	$("p").each(function(){
-		pageContent += this.textContent + "\n";
-	});
-	
-    var arr = iconv.encode(pageContent, 'utf-8');  
+	mdContent = '';
+  var handler = new htmlparser.DefaultHandler(function(error, dom) {
+    if (error)
+        console.log("加载HTML解析器失败", error);
+    else
+        console.log("加载HTML解析器成功");
+  });
+  var parser = new htmlparser.Parser(handler);
+
+  parser.parseComplete(str);
+  for (var i = 0; i < handler.dom.length; i++) {
+    console.log(handler.dom[i]);
+    debugger;
+    traverseNodes(handler.dom[i])
+  }
+      // 把中文转换成字节数组  
+    var arr = iconv.decode(new Buffer(mdContent), 'utf-8');  
     console.log(arr);  
       
     // appendFile，如果文件不存在，会自动创建新文件  
     // 如果用writeFile，那么会删除旧文件，直接写新文件  
     fs.appendFile(file, arr, function(err){  
         if(err)  
-            console.log("fail " + err);  
+            console.log("续写文件失败 " + err);  
         else  
-            console.log("写入文件ok");  
+            console.log("续写文件成功");  
     }); 
-	$("body").empty();
 }  
   
 function readFile(file){  
     fs.readFile(file, function(err, data){  
         if(err)  
-            console.log("读取文件fail " + err);  
+            console.log("读取文件失败 " + err);  
         else{  
             // 读取成功时  
             // 输出字节数组  
             console.log(data);  
             // 把数组转换为gbk中文  
-            var str = iconv.decode(data, 'gbk');  
+            var str = iconv.decode(new Buffer(data), 'gbk');  
             console.log(str);  
         }  
     });  
@@ -160,40 +171,75 @@ Date.prototype.Format = function (fmt) { //author: meizz
     return fmt;
 }
 
-function traverseNodes(node){
-	//判断是否是元素节点  
-	if(node.nodeType == 1){  
-		display(node);  
-		//判断是否有属性节点  
-		for(var i=0;i<node.attributes.length;i++){  
-			//得到属性节点  
-			var attr = node.attributes.item(i);  
-			//判断该节点是否存在  
-			if(attr.specified){  
-				//如果存在 显示输出  
-				display(attr);  
-			}  
-		}  
-		  
-		//判断该元素节点是否有子节点  
-		if(node.hasChildNodes){  
-			//得到所有的子节点  
-			var sonnodes = node.childNodes;  
-			//遍历所哟的子节点  
-			for (var i = 0; i < sonnodes.length; i++) {  
-				//得到具体的某个子节点  
-				var sonnode = sonnodes.item(i);  
-				//递归遍历  
-				traverseNodes(sonnode);  
-			}  
-		}  
-	}else{  
-		display(node);  
-	}  
-}
+function traverseNodes(node) {
+    //判断是否是元素节点  
+    if (node.type == 'tag') {
+        //    display(node);
+        if (node.name == 'p') {
+            isParagraph = true;
+            if (node.children) {
+                for (var i = 0; i < node.children.length; i++) {
+                    if (node.children[i].type == 'text') {
+                        mdContent += node.children[i].data + '\n';
+                        console.log('\np: ' + node.children[i].data + '\n');
+                    }
+                }
+            }
+        } else if (node.name == 'img') {
+            mdContent += '![picture](' + node.attribs.src + ')\n';
+        } else if (node.name == 'blockquote') {
+            mdContent += '>';
+        } else if (node.name == 'a') {
+            isLinkText = true;
+            if (node.children && node.attribs)
+                mdContent += '[' + node.children[0].data + '](' + node.attribs.href + ')\n';
+        } else if (node.name == 'br') {
+            mdContent += '\n';
+        } else if (node.name == 'ul') {
 
-var msg = "";  
-var num=0;  
-function display(node){  
-	msg+=(++num)+" nodeName="+node.nodeName+" nodeValue="+node.nodeValue+" nodeType="+node.nodeType+"<br/>";  
-} 
+        } else if (node.name == 'li') {
+
+        } else if (node.name == 'code') {
+            mdContent += '`';
+            isCodeText = true;
+            if (node.children) {
+              for(var i = 0; i < node.children.length; i++){
+                if(node.children[i].type == 'text'){
+                  mdContent += node.children[i].data;
+                }
+              }
+            }
+            mdContent += '`\n';
+        }
+        //判断该元素节点是否有子节点  
+        if (node.children) {
+            //得到所有的子节点  
+            var sonnodes = node.children;
+            //遍历所哟的子节点  
+            for (var i = 0; i < sonnodes.length; i++) {
+                //得到具体的某个子节点  
+                var sonnode = sonnodes[i];
+                //递归遍历  
+                traverseNodes(sonnode);
+            }
+        }
+    } else if (node.type == 'text') {
+        if (isParagraph) {
+            isParagraph = false;
+        } else if (isLinkText) {
+            isLinkText = false;
+        } else if (isCodeText) {
+            isCodeText = false;
+        } else {
+            mdContent += node.data;
+        }
+    } else {
+        //    display(node); 
+    }
+    fs.writeFile("testParser.txt", mdContent, function(err) {
+        if (err)
+            console.log("写入内容失败 " + err);
+        else
+            console.log("写入内容成功");
+    });
+}

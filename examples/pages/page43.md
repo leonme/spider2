@@ -1,100 +1,89 @@
 ---
-title: canvas的基础使用。
-date: 2016-11-04 14:48:37
+title: HTML5大数据可视化效果（二）可交互地铁线路图
+date: 2016-11-07 15:51:55
 comments: true
 categories: HTML5
 ---
 
-#canvas的基础使用。
-目录：
-创建canvas。
-绘制直线、多边形和七巧板。
-绘制弧和圆。
-（有些图过于宽，被挤压了。可以去相册【canvas用到的图。】看原图。）
- 
-HTML5的新标签<canvas></canvas>
-在使用时会添加id，通过id来获取canvas元素来进行绘图操作。
-可以添加样式。在不指定宽高的时候，默认是300px*150px。
-指定canvas大小是通过canvas标签的width属性和height属性，而不是通过CSS指定，并且指定时是没有单位的。
-使用JavaScript来获取canvas，通过getContext得到绘图的上下文环境。
-除了在标签内指定canvas的大小，还可以在JS中指定。
-当浏览器不支持canvas时，可以使用以下两种方法。
-（当浏览器支持canvas时，canvas标签的内容会被浏览器忽略）
-或者
-使用到的内容：
-canvas.width
-canvas.height
-canvas.getContext()
- 
-这三行代码就可以实现绘制一条直线。
-moveTo，相当于把笔触放在坐标为100,100的位置。lineTo，就是从100,100画到200,200的位置。此时直线还没绘制出来，使用了context.stroke()方法才绘制出来。（这里的坐标是相对于<canvas>来说的。<canvas>的左上角为坐标原点。）
-moveTo和lineTo都是绘制状态设置，而stroke()则是绘制。
-
-除了moveTo，lineTo这两个状态设置。还有：
-lineWidth。线条的宽度。
-strokeStyle。线条样式（颜色），字符串的格式。
-先写状态再写绘制。
-
-绘制多条线段。只需要接上lineTo()就可以。
-
-当最后的lineTo()的坐标和moveTo()的坐标一致，就可以实现首尾衔接的多边形。
-
-矩形，梯形，五星形等的画法同理。
-stroke()主要是绘制线条。
- 
-对多边形进行着色，状态：fillStyle，绘制方法：fill()
-
-绘制路径并且着色：
-
-当画第二个线段/多边形的时候，只需要重新调用moveTo()。
-
-问题：为什么两条线条颜色，粗细一样？
-答案：canvas的绘制是基于状态的，在调用第二个线段的stroke()方法时，第一个线段的状态依然起作用，（既绘制了三角形又绘制了第二条线段），而第二个线段的strokeStyle覆盖了第一个线段的strokeStyle。
- 
-把两个线段的状态分开，方法：beginPath()，在定义路径前调用（moveTo()之前）。相应的，在路径定义完后，使用closePath()。
-
-使用到的内容：
-context.moveTo(x1,y1)
-context.lineTo(x2,y2)
- 
-context.beginPath()
-context.closePath()
- 
-context.lineWidth
-context.strokeStyle
-context.fillStyle
- 
-context.stroke()
-context.fill()
- 
-绘制七巧板。
-
- 
-绘制弧线。参数分别是，圆心的坐标x,y，圆的半径radius，开始的弧度值，结束的弧度值，顺时针转动/逆时针转动（false代表顺时针转动，true代表逆时针转动）。
-弧度/角度。
-无论顺时针/逆时针，弧度是不变的。
-以下是顺时针的角度。
-
-画3/4个圆。arc()也是状态设置。最后一个参数不填时，默认false，即顺时针。
-
-将最后一个参数设置为true时。
-
- 
-绘制多段弧。
-
-问题：为什么弧的开始开始和结尾处被一条直线连接起来了？
-答案：这是closePath()的另一个作用。当当前绘制的路径不是封闭路径时，使用了closePath()的话，就会自动将这段不封闭的路径在首尾处使用一条线连接。
- 
-以上代码不使用closePath()就不会首尾相连：
-
-使用closePath()，并且逆时针方向绘制：
-
-不使用closePath()，并且逆时针方向绘制：
-
-填充处理。strokeStyle改为fillStyle。stroke()改为fill()。并且closePath()的效果：
-
-去掉closePath()：
-
-注意：closePath()对于fill()来说是不起作用的。当调用fill()时，无论你是否调用closePath()，会自动将不封闭的内容首尾相连再填充。
-使用到的内容：
-context.arc(x,y,radius,startingAngle,endingAngle,anticlockwise=false)
+#HTML5大数据可视化效果（二）可交互地铁线路图
+&nbsp;
+[HTML5大数据可视化效果](http://www.cnblogs.com/twaver/p/4547924.html)
+&rdquo;系列，以示鼓励（P.S. 其实还挺有压力的，后浪推前浪，新人赶旧人。我们这些老鸟也得注意，免得让00后给抢了饭碗）&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103121614533-2062155906.jpg)
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103121656721-376610979.jpg)
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103121921361-1178958456.gif)
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103122154049-1255275872.gif)
+&nbsp;
+&nbsp;
+ twaver.Util.registerImage('station',{     w: linkWidth*1.6,     h: linkWidth*1.6,     v: function (data, view) {         var result = [];         if(data.getClient('focus')){             result.push({                 shape: 'circle',                 r: linkWidth*0.7,                 lineColor:  data.getClient('lineColor'),                 lineWidth: linkWidth*0.2,                 fill: 'white',             });             result.push({                 shape: 'circle',                 r: linkWidth*0.2,                 fill:  data.getClient('lineColor'),             });         }else{             result.push({                 shape: 'circle',                 r: linkWidth*0.6,                 lineColor: data.getClient('lineColor'),                 lineWidth: linkWidth*0.2,                 fill: 'white',             });         }         return result;     } }); &nbsp;
+&nbsp;
+ 来看代码：&nbsp;
+ 1.    twaver.Util.registerImage('rotateArrow', { 2.        w: 124, 3.        h: 124, 4.        v: [{ 5.            shape: 'vector', 6.            name: 'doubleArrow', 7.            rotate: 360, 8.            animate: [{ 9.                attr: 'rotate', 10.                to: 0, 11.                dur: 2000, 12.                reverse: false, 13.                repeat: Number.POSITIVE_INFINITY 14.            }] 15.        }] 16.    }); &nbsp;
+  另外，在单击和双击站点时，还实现了selected和loading的动画效果，值得点赞！&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103141545565-2010504104.gif)
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103141605065-1237423734.gif)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103141731096-1466288424.gif)
+&nbsp;
+&nbsp;
+ 1.    network.setZoomManager(new twaver.vector.MixedZoomManager(network)); 2.    network.setMinZoom(0.2); 3.    network.setMaxZoom(3); 4.    network.setZoomVisibilityThresholds({ 5.        label : 0.6, 6.    }); &nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103141931643-856207231.gif)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103143834486-1796262740.gif)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103143940158-1173344247.gif)
+&nbsp;
+&nbsp;
+tw-service@servasoft.com，来鉴赏下小弟的成果。&nbsp;
+&nbsp;
+ 数据结构，按照站点、线路、杂项三大块来组织，结构清晰，利于遍历、查询等操作。&nbsp;
+ 1.    { 2.        "stations":{ 3.            "l01s01":{ }, 4.            &hellip;&hellip;&hellip;&hellip; 5.        } 6.        "lines":{ 7.            "l01":{&hellip;&hellip;}, 8.            &hellip;&hellip;&hellip;&hellip; 9.        } 10.        "sundrys":{ 11.            "railwaystationshanghai":{&hellip;&hellip;}, 12.            &hellip;&hellip;&hellip;&hellip; 13.        } 14.    } &nbsp;
+&nbsp;
+ 1.    "l01s01":{ 2.        "id":"l01s01", 3.        "name":"莘庄", 4.        "loc":{"x":419,"y":1330}, 5.        "label":"bottomright.bottomright", 6.    }, 7.    &hellip;&hellip;&hellip;&hellip; &nbsp;
+&nbsp;
+&nbsp;
+ 1.    function loadJSON(path,callback){ 2.        var xhr = new XMLHttpRequest(); 3.        xhr.onreadystatechange = function(){ 4.            if (xhr.readyState === 4) { 5.                if (xhr.status === 200) { 6.                   dataJson = JSON.parse(xhr.responseText); 7.                   callback &amp;&amp; callback(); 8.               } 9.           } 10.       }; 11.       xhr.open("GET", path, true); 12.       xhr.send(); 13.    } &nbsp;
+&nbsp;
+ 1.    function init(){ 2.        loadJSON("shanghaiMetro.json", function(){ 3.            initNetwork(dataJson); 4.            initNode(dataJson); 5.        }); 6.    } &nbsp;
+&nbsp;
+ 1.    for(staId in json.stations){ 2.        var station = json.stations[staId]; 3.        staNode = new twaver.Node({ 4.            id: staId, 5.            name: station.name, 6.            image:'station', 7.        }); 8.        staNode.s('label.color','rgba(99,99,99,1)'); 9.        staNode.s('label.font','12px 微软雅黑'); 10.        staNode.s('label.position',station.label); 11.        staNode.setClient('location',station.loc); 12.        box.add(staNode); 13.    } &nbsp;
+&nbsp;
+ 1.    for(lineId in json.lines) { 2.        &hellip;&hellip; 3.        for(staSn in line.stations) { 4.            &hellip;&hellip; 5.            var link = new twaver.Link(linkId,prevSta,staNode); 6.            link.s('link.color', line.color); 7.            link.s('link.width', linkWidth); 8.            link.setToolTip(line.name); 9.            box.add(link); 10.        } 11.    } &nbsp;
+  最后再加入图标，一张原始的地铁图就呈现出来了。&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103144715205-1780446914.png)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103144816315-1456837843.png)
+&nbsp;
+&nbsp;
+&nbsp;
+ var createTurnSta = function(line, staSn){     staTurn = new twaver.Node(staSn);     staTurn.setImage();     staTurn.setClient('lineColor',line.color);     staTurn.setClient('lines',[line.id]);     var loc = line.stations[staSn];     staTurn.setClient('location',loc);     box.add(staTurn);     return staTurn; } &nbsp;
+&nbsp;
+&nbsp;
+ var createFollowSta = function(json, line, staNode, staId){     staFollow = new twaver.Follower(staId);     staFollow.setImage();     staFollow.setClient('lineColor',line.color);     staFollow.setClient('lines',[line.id]);     staFollow.setHost(staNode);     var az = azimuth[staId.substr(6,2)];     var loc0 = json.stations[staId.substr(0,6)].loc;     var loc = {x:loc0.x+az.x, y:loc0.y+az.y};     staFollow.setClient('location',loc);     box.add(staFollow);     return staFollow; } &nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103144955643-1549309486.png)
+&nbsp;
+&nbsp;
+ var azimuth = {     bb: {x: 0, y: linkWidth*zoom/2},     tt: {x: 0, y: -linkWidth*zoom/2},     rr: {x: linkWidth*zoom/2, y: 0},     ll: {x: -linkWidth/2, y: 0},     br: {x: linkWidth*zoom*0.7/2, y: linkWidth*zoom*0.7/2},     bl: {x: -linkWidth*zoom*0.7/2, y: linkWidth*zoom*0.7/2},     tr: {x: linkWidth*zoom*0.7/2, y: -linkWidth*zoom*0.7/2},     tl: {x: -linkWidth*zoom*0.7/2, y: -linkWidth*zoom*0.7/2},     BB: {x: 0, y: linkWidth*zoom},     TT: {x: 0, y: -linkWidth*zoom},     RR: {x: linkWidth*zoom, y: 0},     LL: {x: -linkWidth, y: 0},     BR: {x: linkWidth*zoom*0.7, y: linkWidth*zoom*0.7},     BL: {x: -linkWidth*zoom*0.7, y: linkWidth*zoom*0.7},     TR: {x: linkWidth*zoom*0.7, y: -linkWidth*zoom*0.7},     TL: {x: -linkWidth*zoom*0.7, y: -linkWidth*zoom*0.7} }; &nbsp;
+  最后，想要看程序，或者想玩&ldquo;地铁拖拖乐&rdquo;的各位，都可以给我留言和发邮件：tw-service@servasoft.com。

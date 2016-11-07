@@ -1,28 +1,89 @@
 ---
-title: Web前端 网站分类
-date: 2016-11-04 14:48:37
+title: HTML5大数据可视化效果（二）可交互地铁线路图
+date: 2016-11-07 15:51:57
 comments: true
 categories: HTML5
 ---
 
-#Web前端 网站分类
-     在写正文之前先写一点废话，从我大三下学期正式接触前端到现在，已经六个月了。自己从HTML，CSS，简单的JS验证开始，一点点开始走入前端的世界。越发的感觉前端这一领域散发着无穷的魅力，也许这和我真心喜爱前端分不开。有些人总爱说前端技术迭代快，认为这是前端的一个缺点，但我恰恰认为这正是前端的魅力所在， ...     
-      ...     
-     总结笔记，参考文档 http://www.cnblogs.com/jiaozhuo/p/5751002.html 1 函数模式 最普通的函数调用 1 // 声明式函数 2 function fn1 () { 3 console.log(this); 4 } 5 // 函数表达式函数 6 var fn ...     
-     array.sort(function(a, b){ return a -b ; } ) 把数组 array 按照从小到大排序。 [11, 22, 586, 10, -58, 86].sort(function(a, b){ return a -b ; } ) 返回： [-58, 10, 11, 2 ...     
-     首先简单介绍下正则表达式： 在编写处理字符串的程序或网页时，经常会有查找符合某些复杂规则的字符串的需要。正则表达式就是用于描述这些规则的工具。换句话说，正则表达式就是记录文本规则的代码。 下面就看看正则表达式里乱七八糟的字符都是什么意思： 1、常用的元字符 那我们试着理解下： \bhello\b 其 ...     
-     前言 随着可视化进入深水区，G2面临了越来越多交互上的需求。动画是提升交互必不可少的一部分，也是之前G2的薄弱环节。这个版本里我们开发并替换了动画底层，统一了时间轴，使G2的动画性能大大提升，并提供了一套默认的交互动画，使G2图表的表现力更加丰富。 默认动画 render() 出场动画 change ...     
-     1. 基于ui-router的页面跳转传参(1) 在AngularJS的app.js中用ui-router定义路由，比如现在有两个页面，一个页面（producers.html）放置了多个producers，点击其中一个目标，页面跳转到对应的producer页，同时将producerId这个参数传过去 ...     
-     将对象转换为数值类型（number） 1.布尔值（boolean） 转换 false为0，true为1 2.数值（number） 转换本身，无意义的0自动消失 3.null（object） 转换为0 4.undefined(undefined)转换为NaN 5.字符串（string） A.纯数字和进 ...     
-     ``````````````````````````````````````````````````````````````````````````````````````` ...     
-     本文摘自Google 原文地址1：https://developers.google.com/web/tools/chrome-devtools/remote-debugging/?utm_source=dcc&utm_medium=redirect&utm_campaign=2016q3#port ...     
-     超酷HTML5 Canvas图表应用Chart.js自定义提示折线图 效果预览 实例代码 <div class="htmleaf-container"> <div class="htmleaf-content"> <div style="width:30%;margin:0 auto;"> <div ...     
-     position俗称定位，主要取值及作用如下： static 默认值。没有定位，出现在正常文档流中 absolute 绝对定位，相对于position为absolute、relative、fixed的第一个父元素进行定位 relative 相对定位，相对于其正常位置进行定位 fixed 绝对定位，相 ...     
-     二、插入元素： (一)、jQuery方法 1、在节点内部插入: 方法 说明 append() 向每个匹配的元素内部追加内容 appendTo() 把所有的元素追加到另一个指定的元素集合中，实际上是颠倒了append()的用法。如$(A).append(B)与$(B).appendto(A)是等价的  ...     
-     一、 创建节点： 节点是DOM结构的基础，根据DOM规范，节点是一个很宽泛的概念，包含元素、属性、文本、文档和注释。但在实际开发中，要动态创建内容，主要操作的节点包括元素、属性和文本。 1、需求：创建一个h1 标签，把它作为div元素的子节点添加到DOM节点树中。 2、基本思路是：先创建一个h1元素 ...     
-     关于sass的安装真是费了九牛二虎之力，这么说一点都不夸张，好了我就不多浪费口水了，直接进入正题 1.首先要安装ruby，这个大家可以去度娘上查询，很好安装的，相信大家的智慧与实力都是可以安装成功的 2.那么下边开始安装sass，去网上搜了半天依然未安装成功，只好把各种方法综合起来应用 首先打开命令 ...     
-     作用域 技术一般水平有限，有什么错的地方，望大家指正。 作用域就是变量起作用的范围。作用域包括全局作用域，函数作用域以块级作用域，ES6中的let和const可以形成块级作用域。 除了块级作用域，在函数外面声明的变量可以在任何一个地方被访问到,这些变量的作用域都是全局作用域，全局作用域中的变量可以再 ...     
-     1.简介 Picasso是Square公司出品的一个强大的图片下载和缓存图片库1）在adapter中需要取消已经不在视野范围的ImageView图片资源的加载，否则会导致图片错位，Picasso已经解决了这个问题。2）使用复杂的图片压缩转换来尽可能的减少内存消耗3）自带内存和硬盘二级缓存功能 2.基 ...     
-     核心提示：这是网上开源编程学习项目FCC的javascript中级编程题（ "Intermediate Algorithm Scripting" (50 hours)），一共20题。建议时间是50个小时，对于刚入门的人来说，操作是有些难度了。 1.我们会传递给你一个包含两个数字的数组。返回这两个数字 ...     
-     看下面代码 ` ` ` var ul=document.getElementById('demo'); var oLi=ul.getElementsByTagName('li'); for (var i = 0; i < oLi.length; i++) { oLi[i].onclick=funct ...     
-     1 //这段代码展示了在用户未输入值时，//如何在文本类型的input域中保留//一个默认值wap_val = [];$(".swap").each(function(i){	wap_val[i] = $(this).val();	$(this).focusin(function(){ if ($( ...     
+#HTML5大数据可视化效果（二）可交互地铁线路图
+&nbsp;
+[HTML5大数据可视化效果](http://www.cnblogs.com/twaver/p/4547924.html)
+&rdquo;系列，以示鼓励（P.S. 其实还挺有压力的，后浪推前浪，新人赶旧人。我们这些老鸟也得注意，免得让00后给抢了饭碗）&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103121614533-2062155906.jpg)
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103121656721-376610979.jpg)
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103121921361-1178958456.gif)
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103122154049-1255275872.gif)
+&nbsp;
+&nbsp;
+ twaver.Util.registerImage('station',{     w: linkWidth*1.6,     h: linkWidth*1.6,     v: function (data, view) {         var result = [];         if(data.getClient('focus')){             result.push({                 shape: 'circle',                 r: linkWidth*0.7,                 lineColor:  data.getClient('lineColor'),                 lineWidth: linkWidth*0.2,                 fill: 'white',             });             result.push({                 shape: 'circle',                 r: linkWidth*0.2,                 fill:  data.getClient('lineColor'),             });         }else{             result.push({                 shape: 'circle',                 r: linkWidth*0.6,                 lineColor: data.getClient('lineColor'),                 lineWidth: linkWidth*0.2,                 fill: 'white',             });         }         return result;     } }); &nbsp;
+&nbsp;
+ 来看代码：&nbsp;
+ 1.    twaver.Util.registerImage('rotateArrow', { 2.        w: 124, 3.        h: 124, 4.        v: [{ 5.            shape: 'vector', 6.            name: 'doubleArrow', 7.            rotate: 360, 8.            animate: [{ 9.                attr: 'rotate', 10.                to: 0, 11.                dur: 2000, 12.                reverse: false, 13.                repeat: Number.POSITIVE_INFINITY 14.            }] 15.        }] 16.    }); &nbsp;
+  另外，在单击和双击站点时，还实现了selected和loading的动画效果，值得点赞！&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103141545565-2010504104.gif)
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103141605065-1237423734.gif)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103141731096-1466288424.gif)
+&nbsp;
+&nbsp;
+ 1.    network.setZoomManager(new twaver.vector.MixedZoomManager(network)); 2.    network.setMinZoom(0.2); 3.    network.setMaxZoom(3); 4.    network.setZoomVisibilityThresholds({ 5.        label : 0.6, 6.    }); &nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103141931643-856207231.gif)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103143834486-1796262740.gif)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103143940158-1173344247.gif)
+&nbsp;
+&nbsp;
+tw-service@servasoft.com，来鉴赏下小弟的成果。&nbsp;
+&nbsp;
+ 数据结构，按照站点、线路、杂项三大块来组织，结构清晰，利于遍历、查询等操作。&nbsp;
+ 1.    { 2.        "stations":{ 3.            "l01s01":{ }, 4.            &hellip;&hellip;&hellip;&hellip; 5.        } 6.        "lines":{ 7.            "l01":{&hellip;&hellip;}, 8.            &hellip;&hellip;&hellip;&hellip; 9.        } 10.        "sundrys":{ 11.            "railwaystationshanghai":{&hellip;&hellip;}, 12.            &hellip;&hellip;&hellip;&hellip; 13.        } 14.    } &nbsp;
+&nbsp;
+ 1.    "l01s01":{ 2.        "id":"l01s01", 3.        "name":"莘庄", 4.        "loc":{"x":419,"y":1330}, 5.        "label":"bottomright.bottomright", 6.    }, 7.    &hellip;&hellip;&hellip;&hellip; &nbsp;
+&nbsp;
+&nbsp;
+ 1.    function loadJSON(path,callback){ 2.        var xhr = new XMLHttpRequest(); 3.        xhr.onreadystatechange = function(){ 4.            if (xhr.readyState === 4) { 5.                if (xhr.status === 200) { 6.                   dataJson = JSON.parse(xhr.responseText); 7.                   callback &amp;&amp; callback(); 8.               } 9.           } 10.       }; 11.       xhr.open("GET", path, true); 12.       xhr.send(); 13.    } &nbsp;
+&nbsp;
+ 1.    function init(){ 2.        loadJSON("shanghaiMetro.json", function(){ 3.            initNetwork(dataJson); 4.            initNode(dataJson); 5.        }); 6.    } &nbsp;
+&nbsp;
+ 1.    for(staId in json.stations){ 2.        var station = json.stations[staId]; 3.        staNode = new twaver.Node({ 4.            id: staId, 5.            name: station.name, 6.            image:'station', 7.        }); 8.        staNode.s('label.color','rgba(99,99,99,1)'); 9.        staNode.s('label.font','12px 微软雅黑'); 10.        staNode.s('label.position',station.label); 11.        staNode.setClient('location',station.loc); 12.        box.add(staNode); 13.    } &nbsp;
+&nbsp;
+ 1.    for(lineId in json.lines) { 2.        &hellip;&hellip; 3.        for(staSn in line.stations) { 4.            &hellip;&hellip; 5.            var link = new twaver.Link(linkId,prevSta,staNode); 6.            link.s('link.color', line.color); 7.            link.s('link.width', linkWidth); 8.            link.setToolTip(line.name); 9.            box.add(link); 10.        } 11.    } &nbsp;
+  最后再加入图标，一张原始的地铁图就呈现出来了。&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103144715205-1780446914.png)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103144816315-1456837843.png)
+&nbsp;
+&nbsp;
+&nbsp;
+ var createTurnSta = function(line, staSn){     staTurn = new twaver.Node(staSn);     staTurn.setImage();     staTurn.setClient('lineColor',line.color);     staTurn.setClient('lines',[line.id]);     var loc = line.stations[staSn];     staTurn.setClient('location',loc);     box.add(staTurn);     return staTurn; } &nbsp;
+&nbsp;
+&nbsp;
+ var createFollowSta = function(json, line, staNode, staId){     staFollow = new twaver.Follower(staId);     staFollow.setImage();     staFollow.setClient('lineColor',line.color);     staFollow.setClient('lines',[line.id]);     staFollow.setHost(staNode);     var az = azimuth[staId.substr(6,2)];     var loc0 = json.stations[staId.substr(0,6)].loc;     var loc = {x:loc0.x+az.x, y:loc0.y+az.y};     staFollow.setClient('location',loc);     box.add(staFollow);     return staFollow; } &nbsp;
+![picture](http://images2015.cnblogs.com/blog/311983/201611/311983-20161103144955643-1549309486.png)
+&nbsp;
+&nbsp;
+ var azimuth = {     bb: {x: 0, y: linkWidth*zoom/2},     tt: {x: 0, y: -linkWidth*zoom/2},     rr: {x: linkWidth*zoom/2, y: 0},     ll: {x: -linkWidth/2, y: 0},     br: {x: linkWidth*zoom*0.7/2, y: linkWidth*zoom*0.7/2},     bl: {x: -linkWidth*zoom*0.7/2, y: linkWidth*zoom*0.7/2},     tr: {x: linkWidth*zoom*0.7/2, y: -linkWidth*zoom*0.7/2},     tl: {x: -linkWidth*zoom*0.7/2, y: -linkWidth*zoom*0.7/2},     BB: {x: 0, y: linkWidth*zoom},     TT: {x: 0, y: -linkWidth*zoom},     RR: {x: linkWidth*zoom, y: 0},     LL: {x: -linkWidth, y: 0},     BR: {x: linkWidth*zoom*0.7, y: linkWidth*zoom*0.7},     BL: {x: -linkWidth*zoom*0.7, y: linkWidth*zoom*0.7},     TR: {x: linkWidth*zoom*0.7, y: -linkWidth*zoom*0.7},     TL: {x: -linkWidth*zoom*0.7, y: -linkWidth*zoom*0.7} }; &nbsp;
+  最后，想要看程序，或者想玩&ldquo;地铁拖拖乐&rdquo;的各位，都可以给我留言和发邮件：tw-service@servasoft.com。

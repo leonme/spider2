@@ -1,2 +1,272 @@
-undefinedtesting
-testing
+在WebGL场景中导入多个Babylon骨骼模型，在局域网用WebSocket实现多用户交互控制。
+首先是场景截图：
+![picture](http://images2015.cnblogs.com/blog/657116/201611/657116-20161104092432330-1844981251.png)
+上图在场景中导入一个Babylon骨骼模型，使用asdw、空格、鼠标控制加速度移动，在移动时播放骨骼动画。
+![picture](http://images2015.cnblogs.com/blog/657116/201611/657116-20161104092921783-1111568630.png)
+上图在场景中加入更多的骨骼模型（兔子），兔子感知到人类接近后会加速远离人类。
+![picture](http://images2015.cnblogs.com/blog/657116/201611/657116-20161104093417315-1396209353.png)
+上图，一个局域网中的新玩家进入场景，（他们头上的数字是WebSocket分配的session id），兔子们受到0和1的叠加影响。
+&nbsp;
+具体实现：
+一、工程结构：
+&nbsp;前台WebStorm工程：
+![picture](http://images2015.cnblogs.com/blog/657116/201611/657116-20161104094056596-1505476394.png)
+其中map.jpg是地形高度图，tree.jpg不是树而是地面泥土的纹理。。。
+LIB文件夹里是引用的第三方库（babylon.max.js是2.4版），MYLIB文件夹里是我自己编写或整理修改的库，PAGE里是专用于此网页的脚本文件
+　　其中FileText.js是js前台文件处理库（这里只用到了其中的产生日期字符串函数）
+　　MoveWeb.js是加速度计算库
+　　Sdyq.js里是对物体对象的定义和操作监听
+　　Player.js里是继承了物体对象的玩家对象和动物对象的定义
+　　utils是一些其他工具
+　　View是页面控制库
+MODEL文件夹里是人物和兔子的骨骼模型文件。
+后台MyEclipse工程：
+![picture](http://images2015.cnblogs.com/blog/657116/201611/657116-20161104094910408-100628683.png)
+使用JDK1.7，因为Tomcat v8.0里包含了WebSocket所用的库，所以不需要引入额外jar包，只写了一个类。
+二、基本场景构建和骨骼模型导入：
+html页面文件：
+![picture](http://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif)
+![picture](http://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif)
+
+
+ 1 &lt;!DOCTYPE html&gt;
+ 2 &lt;html lang="en"&gt;
+ 3 &lt;head&gt;
+ 4     &lt;meta charset="UTF-8"&gt;
+ 5     &lt;title&gt;使用websocket联网进行数据传递，这个节点应该既可以做主机也可以加入他人的主机&lt;/title&gt;
+ 6 &lt;/head&gt;
+ 7 &lt;body&gt;
+ 8 &lt;div id="all_base" style="position:fixed;top:0px;left: 0px;"&gt;
+ 9     &lt;div id="div_canvas" style="float: left;width: 75%;border: 1px solid"&gt;
+10         &lt;canvas id="renderCanvas" style="width: 100%;height: 100%"&gt;&lt;/canvas&gt;
+11     &lt;/div&gt;
+12     &lt;div id="div_log" style="float: left;border: 1px solid;overflow-y: scroll"&gt;
+13     &lt;/div&gt;
+14     &lt;div id="div_bottom" style="float: left;width: 100%;height: 100px;padding-top: 10px;padding-left: 10px"&gt;
+15         &lt;input style="width: 200px" id="str_ip" value="localhost"&gt;
+16         &lt;input id="str_name"&gt;
+17         &lt;button id="btn_create" onclick="createScene()" disabled=true&gt;启动场景&lt;/button&gt;
+18         &lt;button id="btn_connect" onclick="Connect()" &gt;websocket连接&lt;/button&gt;
+19         &lt;button id="btn_close" onclick="Close()" disabled=true&gt;关闭连接&lt;/button&gt;
+20         &lt;span id="str_id" style="display: inline-block"&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;
+21         &lt;input style="width: 400px" id="str_message"&gt;
+22         &lt;button id="btn_send" onclick="Send()"&gt;发送&lt;/button&gt;
+23     &lt;/div&gt;
+24 &lt;/div&gt;
+25 &lt;script src="../JS/LIB/babylon.max.js"&gt;&lt;/script&gt;
+26 &lt;script src="../JS/MYLIB/View.js"&gt;&lt;/script&gt;
+27 &lt;script src="../JS/LIB/jquery-1.11.3.min.js"&gt;&lt;/script&gt;
+28 &lt;script src="../JS/MYLIB/FileText.js"&gt;&lt;/script&gt;
+29 &lt;script src="../JS/MYLIB/Sdyq.js"&gt;&lt;/script&gt;
+30 &lt;script src="../JS/MYLIB/player.js"&gt;&lt;/script&gt;
+31 &lt;script src="../JS/MYLIB/MoveWeb.js"&gt;&lt;/script&gt;
+32 &lt;script src="../JS/MYLIB/utils.js"&gt;&lt;/script&gt;
+33 &lt;script src="../JS/PAGE/scene_link.js"&gt;&lt;/script&gt;
+34 &lt;script src="../JS/PAGE/WebSocket.js"&gt;&lt;/script&gt;
+35 &lt;/body&gt;
+36 &lt;script&gt;
+37     var username="";
+38     window.onload=BeforeLog;
+39     window.onresize=Resize_Pllsselect;
+40     function BeforeLog()
+41     {
+42         Resize_Pllsselect();
+43         //DrawYzm();
+44         //createScene();
+45     }
+46     var str_log=document.getElementById("div_log");
+47     function Resize_Pllsselect()
+48     {
+49         var size=window_size();
+50         document.getElementById("all_base").style.height=(size.height+"px");
+51         document.getElementById("all_base").style.width=(size.width+"px");
+52         document.getElementById("div_canvas").style.height=(size.height-100+"px");
+53         str_log.style.height=(size.height-100+"px");
+54         str_log.style.width=((size.width/4)-4+"px");
+55         if(engine!=undefined)
+56         {
+57             engine.resize();
+58         }
+59     }
+60 
+61     var state="offline";
+62 
+63     var arr_myplayers=[];
+64     var arr_webplayers=[];
+65     var arr_animals=[];
+66     var arr_tempobj=[];//暂存对象初始化信息
+67     var tempobj;
+68 
+69     var canvas = document.getElementById("renderCanvas");
+70     var ms0=0;//上一时刻毫秒数
+71     var mst=0;//下一时刻毫秒数
+72     var schange=0;//秒差
+73 
+74     var skybox,
+75             scene,
+76             sceneCharger = false,
+77             meshOctree,
+78             cameraArcRotative = [],//弧形旋转相机列表
+79             octree;
+80     var engine;
+81     var shadowGenerator ;
+82 
+83 &lt;/script&gt;
+84 &lt;/html&gt;
+
+View Code其中包含对页面尺寸大小变化的响应和一些全局变量的定义
+scene_link.js文件中包含场景的构建和模型导入：
+1、在createScene()方法的开头部分建立了一个基本的PlayGround场景：
+
+ 1 engine = new BABYLON.Engine(canvas, true);
+ 2     engine.displayLoadingUI();
+ 3     scene = new BABYLON.Scene(engine);
+ 4 
+ 5     //在场景中启用碰撞检测
+ 6     scene.collisionsEnabled = true;
+ 7     //scene.workerCollisions = true;//启动webworker进程处理碰撞，确实可以有效使用多核运算，加大帧数！！
+ 8     //但是worker是异步运算的，其数据传输策略会导致movewithcollition执行顺序与期望的顺序不符
+ 9 
+10     //定向光照
+11     var LightDirectional = new BABYLON.DirectionalLight("dir01", new BABYLON.Vector3(-2, -4, 2), scene);
+12     LightDirectional.diffuse = new BABYLON.Color3(1, 1, 1);//散射颜色
+13     LightDirectional.specular = new BABYLON.Color3(0, 0, 0);//镜面反射颜色
+14     LightDirectional.position = new BABYLON.Vector3(250, 400, 0);
+15     LightDirectional.intensity = 1.8;//强度
+16     shadowGenerator = new BABYLON.ShadowGenerator(1024, LightDirectional);//为该光源建立阴影生成器，用在submesh上时一直在报错，不知道为了什么
+17 
+18     //弧形旋转相机
+19     cameraArcRotative[0] = new BABYLON.ArcRotateCamera("CameraBaseRotate", -Math.PI/2, Math.PI/2.2, 12, new BABYLON.Vector3(0, 5.0, 0), scene);
+20     cameraArcRotative[0].wheelPrecision = 15;//鼠标滚轮？
+21     cameraArcRotative[0].lowerRadiusLimit = 2;
+22     cameraArcRotative[0].upperRadiusLimit = 22;
+23     cameraArcRotative[0].minZ = 0;
+24     cameraArcRotative[0].minX = 4096;
+25     scene.activeCamera = cameraArcRotative[0];
+26     cameraArcRotative[0].attachControl(canvas);//控制关联
+27 
+28     //地面
+29     //name,url,width,height,subdivisions,minheight,maxheight,updateble,onready,scene
+30     ground = BABYLON.Mesh.CreateGroundFromHeightMap("ground", "../IMAGE/map.jpg", 1000, 1000, 100, 0, 60, scene, true);//地面类型的网格
+31     var groundMaterial = new BABYLON.StandardMaterial("groundMat", scene);//泥土材质
+32     groundMaterial.diffuseTexture = new BABYLON.Texture("../IMAGE/tree.png", scene);//地面的纹理贴图
+33     groundMaterial.diffuseTexture.uScale = 50.0;//纹理重复效果
+34     groundMaterial.diffuseTexture.vScale = 50.0;
+35     ground.material = groundMaterial;
+36     ground.checkCollisions = true;//检测碰撞
+37     ground.receiveShadows = true;//接收影子
+38 
+39     //墙
+40     var Mur = BABYLON.Mesh.CreateBox("Mur", 1, scene);
+41     Mur.scaling = new BABYLON.Vector3(15, 6, 1);
+42     Mur.position.y = 20;
+43     Mur.position.z = 20;
+44     Mur.checkCollisions = true;
+其中各个方法的具体用法可以参考官方的基础教程
+2、接下来是在场景中导入第一个人物的骨骼模型：
+
+ 1 //角色导入，加载哪个mesh、文件目录、文件名、加入场景、回调函数
+ 2     BABYLON.SceneLoader.ImportMesh("", "../MODEL/him/", "him.babylon", scene, function (newMeshes, particleSystems, skeletons)
+ 3     {//载入完成的回调函数
+ 4         var Tom=new Player;
+ 5         var obj_p={};//初始化参数对象
+ 6         obj_p.mesh=newMeshes[0];//网格数据
+ 7         obj_p.scaling=new BABYLON.Vector3(0.05, 0.05, 0.05);//缩放
+ 8         obj_p.position=new BABYLON.Vector3(-5.168, 30.392, -7.463);//位置
+ 9         obj_p.rotation=new BABYLON.Vector3(0, 3.9, 0);// 旋转
+10         obj_p.checkCollisions=true;//使用默认的碰撞检测
+11         obj_p.ellipsoid=new BABYLON.Vector3(0.5, 1, 0.5);//碰撞检测椭球
+12         obj_p.ellipsoidOffset=new BABYLON.Vector3(0, 2, 0);//碰撞检测椭球位移
+13         obj_p.skeletonsPlayer=skeletons;
+14         obj_p.methodofmove="controlwitha";
+15         obj_p.name=username;
+16         obj_p.id=id;
+17         obj_p.p1="";
+18         obj_p.p2="../MODEL/him/";
+19         obj_p.p3="him.babylon";
+20         var len=newMeshes.length;//对于复杂的模型来说newMeshes的其他部分也必须保存下来
+21         var arr=[];
+22         for(var i=1;i&lt;len;i++)
+23         {
+24             arr.push(newMeshes[i]);
+25         }
+26         obj_p.submeshs=arr;
+27 
+28         Tom.init(
+29             obj_p
+30         );
+31         arr_myplayers[username]=Tom;
+32 
+33         if(state=="online")
+34         {
+35             var arr=[];
+36             arr.push("addnewplayer");
+37             arr.push(Tom.mesh.scaling.x);
+38             arr.push(Tom.mesh.scaling.y);
+39             arr.push(Tom.mesh.scaling.z);
+40             arr.push(Tom.mesh.position.x);
+41             arr.push(Tom.mesh.position.y);
+42             arr.push(Tom.mesh.position.z);
+43             arr.push(Tom.mesh.rotation.x);
+44             arr.push(Tom.mesh.rotation.y);
+45             arr.push(Tom.mesh.rotation.z);
+46             arr.push(Tom.p1);
+47             arr.push(Tom.p2);
+48             arr.push(Tom.p3);
+49             arr.push(Tom.meshname);
+50             var dt=new Date();
+51             console.log(dt.getTime()+"send addnewplayer"+id);
+52             doSend(arr.join("@"));
+53         }
+54 
+55         cameraArcRotative[0].alpha = -parseFloat(arr_myplayers[username].mesh.rotation.y) - 4.69;//初始化相机角度
+56 
+57     });
+&nbsp;　　其中BABYLON.SceneLoader.ImportMesh是一个异步的把服务器端场景文件导入本地内存的方法，第一个参数表示导入场景文件中的哪一个Mesh，为空表示都导入（一个场景文件里可能包含多个模型，但该示例中的场景文件里只有一个模型，所以也叫做模型文件），第二个参数是文件所在的相对路径，第三个参数是文件名，第四个参数是文件加入的场景，第五个参数是导入完成后的回调函数。
+　　回调函数的newMeshes参数是所有导入的Mesh组成的数组，skeletons参数是所有导入的骨骼动画数组。事实上一个模型可能由多个mesh组合而成，比如示例中的him模型的newMeshes[0]只是一个空壳，newMeshes[1]到newMeshes[5]才是模型各个部分的实际Mesh，后五个Mesh是newMeshes[0]的“submesh”，newMeshes[0]是后五个Mesh的parent，在理想情况下这些Mesh之间的关系和Mesh与骨骼动画（skeleton）之间的关系由Babylon引擎自动管理。
+　　在回调函数中，定义Tom为一个Player“类”对象，第五行定义的obj_p对象是Player对象的初始化参数对象，Player.init()方法定义在player.js文件中：
+
+ 1 //玩家对象
+ 2 Player=function()
+ 3 {
+ 4     sdyq.object.call(this);
+ 5 }
+ 6 Player.prototype=new sdyq.object();
+ 7 Player.prototype.init=function(param)
+ 8 {
+ 9     param = param || {};
+10     sdyq.object.prototype.init.call(this,param);//继承原型的方法
+11     this.flag_standonground=0;//是否接触地面
+12     this.keys={w:0,s:0,a:0,d:0,space:0,ctrl:0,shift:0};//按键是否保持按下，考虑到多客户端并行，那么势必每个player都有自己的keys！！
+13     this.flag_runfast=1;//加快速度
+14     this.name=param.name;
+15     this.id=param.id;
+16     this.p1=param.p1;
+17     this.p2=param.p2;
+18     this.p3=param.p3;
+19 。。。
+　　可以看到Player对象继承自sdyq.object对象，Player对象的原型是sdyq.object对象，在Player对象的init方法中，先初始化属于原型的属性，再初始化自己这个“类”新添加的属性。
+　　sdyq.object对象的定义在Sdyq.js文件中：
+
+ 1 //物体本身的属性和初始化
+ 2 sdyq={};//3D引擎
+ 3 sdyq.object=function()
+ 4 {//在地面上加速度运动的物体
+ 5 
+ 6 }
+ 7 sdyq.object.prototype.init = function(param)
+ 8 {
+ 9     this.keys={w:0,s:0,a:0,d:0,space:0,ctrl:0,shift:0};//按键是否保持按下
+10     this.witha0={forward:0,left:0,up:-9.82};//非键盘控制产生的加速度
+11     this.witha={forward:0,left:0,up:-9.82};//环境加速度，包括地面阻力和重力，现在还没有风力
+12     this.witha2={forward:0,left:0,up:0};//键盘控制加速度与物体本身加速度和非键盘控制产生的加速度合并后的最终加速度
+13     this.v0={forward:0,left:0,up:0};//上一时刻的速度
+14     this.vt={forward:0,left:0,up:0};//下一时刻的速度
+15     this.vm={forward:15,backwards:5,left:5,right:5,up:100,down:100};//各个方向的最大速度
+16     //this.flag_song=0;//是否接触地面
+17     this.flag_runfast=1;//加快速度
+18     this.ry0=0;//上一时刻的y轴转角
+19     this.ryt=0;//下一时刻的y轴转角
+20     this.rychange=0;//y轴转角差
+21     this.mchange={forward:0,left:0,up:0};//物体自身坐标系上的位移
+22     this.vmove=new BABYLON.Vector3(0,0,0);

@@ -1,27 +1,52 @@
 ---
-title: 东方网总裁公开信：一统天下的腾讯对国家绝对是危害
-date: 2016-11-04 14:48:34
+title: 多列布局 刘江龙 博客园
+date: 2016-11-07 15:51:45
 comments: true
 categories: HTML5
 ---
 
-#东方网总裁公开信：一统天下的腾讯对国家绝对是危害
-　　日前，东方网旗下的微信公众号《媒体早餐》因被网友举报涉嫌造谣而被微信官方封号七天，东方网方面经过申诉无果、求助无门之后，他们的总编，著名媒体人徐世平先生写下这篇致腾讯 CEO 马化腾的公开信，痛陈微信的垄断是对于新闻行业的践踏以及对于国家来说是危害。以下是公开信全文内容：
-　　尊敬的马化腾先生：
-　　你好！
-　　我耐心地等了两天，才下决心给你写这封公开信。昨晚，我失眠了。我是一个遇事不想、倒头就睡的人。但是，这两天，我睡不着了。因为，我认为我碰到了一件重大的事情。这件事，看上去不算什么。然而，它关系到中国的舆论生态和新闻尊严。不能不说。
-　　掐指算来，我从事新闻媒体工作 33 年了。1982 年从中国人民大学新闻系毕业，分配进入中国历史最悠久的报纸《新民晚报》工作，体育部、新民体育报、评论部，后来又参与东方网建设，长期担任总编辑。这样的经历，让我明白，无论是过去的“同仁报纸”，还是现在的媒体机构，新闻和媒体的生态，都是有管理秩序的，行业管理也好，导向管理也罢，总之，我们都认，也都服。毕竟，管理者都是专业的。
-　　可悲与可叹的是，不知道你马先生是志存高远呢？还是狂妄无知？你领导下的腾讯，也开始准备充当行业管理者的角色了。是的，你的企业足够大，微信足够牛，许多地方政府和众多媒体，天天都在拍你的马屁，但这不说明你有行业管理者的能力和资格。因为，你至少不专业。
-
-徐世平
-　　好了，说说这件看上去不太大的事情。否则，公众会认为，我在无理取闹。其实，以我的个性，从来就是一个有理也不闹的人。但是，这件事，性质严重，不说就是失语，就是失责。
-　　两天前，东方网旗下的一个媒体性质的公号《新闻早餐》（xwzc021，有认证），突然收到一则腾讯的处罚决定，这个决定是以告知的方式通知的，说新闻早餐的一篇文章《为什么街上香喷喷的烤鸭只卖 19 元？》，被人举报，涉嫌造谣和传谣，封号七天。我的手下很天真，赶紧通过网络进行申诉。我当然知道，这种申诉是没有用的。以我的经历（在腾讯的个人公号经历），过去经常碰到这样的事，也无数次申诉，结果都是石沉大海。
-　　毕竟，我曾经担任过上海网宣机构的负责人，希望通过正式行文的方式，请腾讯帮忙解决这件事。我知道，这事很无奈，也很可悲，一家媒体的命运，就这样握在他人之手。生杀予夺，毫不留情，没有尊严，这不能不说是所有媒体人的悲哀。但是，我还是决定去做。没办法，环境如此。“两微一端”，现在都被官方认可，也成为转型融合的标志，各种官方的排名，都用微信说事（我只能说，新浪的微博还可以），你不从，行吗？毕竟，我们还都端着饭碗，要养家糊口，要活下去。
-　　前天晚上，我给当年的同行，广东网信办的前任领导，也是朋友，打电话求援，希望他能帮忙打招呼。我深深理解，手下干活的小朋友们的心情，一个四十万粉丝的新闻公号，封号七天，怎么得了？这位朋友很帮忙，深夜将我们的求诉信息，转达给了腾讯。同时，我也给北京网信办的领导朋友打电话（因为我知道，腾讯新闻的管辖权要归北京了），请他也帮帮忙。朋友们都回复，将信息转达了。打完这个电话，我才放下心，睡觉了。当然，我也天真了。第二天睡来，第一时间去看“新闻早餐”，依然没有解封。我很失望，只得安慰手下：“耐心等吧”。我希望公文能起到效果。
-　　昨天晚上，我再次关心公文的“行程”。不知是喜是忧，喜的是广东有关方面收到公文了，忧的是还有一条信息，说是对接的人，“休假了”。好吧，再等一天。但是，这一晚，辗转反侧，无论如何睡不着。媒体融合，这都是要融到腾讯的架式啊。腾讯是什么，只是一家互联公司而已，他的资本结构，不能代表全民的利益吧？因为，资本决定立场。
-　　我听说，腾讯的举报处理机制，大致是这样的。信息有人举报，会触发关键词，然后腾讯方面会将有关内容，送第三方机构处理。我当然相信这些机构，有些机构还是权威的。但是，第三方机构中，也有“不权威”的机构，这些信息，是权威机构在处理呢，还是“不权威”机构在处理。以我的工作经历，我一直以为，权威的机构不太愿意或者没有能力做这件事，而“不权威”的机构，更乐于做这件事。《新闻早餐》（xwzc021）的这篇文章，很多的媒体都报道过，即使我们有整合的瑕疵，也不至于一棍子打死吧。我还在想，《新闻早餐》是经过官方认证的媒体属性的公众号，我们也一直在努力加强管理，强调自己的社会责任，倡导正确的舆论导向。如果我们有问题，是不是应该事先沟通，如果确有问题，再行封号也不迟吧？
-　　我且不论是谁举报了《新闻早餐》（xwzc021），这类恶意举报的事例，太多太多了。我不介意。这很正常。但是，腾讯的做法，不得不让我心生怀疑。这两年间，我在许多公众场合，批评腾讯。大致是两件事，第一，我反对腾讯到处掠夺公共数据资源。大家知道，DT 时代，公共数据资源是巨大的财富，既是公共资源，那它就是属于全民的。公共资源的重要性，不亚于过去的矿产水利等实物资源，所有的资源的出让，都应该有对价。但是，这两年，你马先生成为地方政府的“座上客”，轻松地将许多本应属于全民的数据资原，以各种高大上的名目，纳入旗下，最要拿的是，这种交换，并没有评估和对价。腾讯是一家什么公司?你的资本结构是什么？将全民的资源，没有对价，就收入口袋，是不是对全民利益的侵害？因此，我在许多场合，建议依据反垄断法，拆分腾讯。一个一统天下的腾讯，对国家绝对是一种危害。不信走着瞧。它今天可以对媒体露出狰狞威权，明天就会对国家权威提出挑战。第二，我在不久前主持的一个论坛上，公开不看好腾讯微信即将推出的小程序（也有人将其称为“超级 AP”），我认为腾讯过于自信，有点异想天开。毕竟，我不会傻到先点开微信，再去京东买东西，或者打开微信再去滴滴打车。这个属于行业学术讨论性质，不多说。
-　　这两件事，是不是让你马先生或者你的手下，非常的不爽？我不清楚。如果是，你和你手下的心胸和格局就太小了。
-　　写这封信，我很犹豫。许多人劝我，还是算了，息事宁人吧，毕竟《新闻早餐》还是要活下去，东方网还是一堆的公号，要呆在微信的平台上，你的业绩，还需要数据的支撑。等等。但是，我最终还是想明白了，我是媒体人，媒体人应该有尊严，不应为五斗米折腰。如果有朝一日，中国的媒体，都成为腾讯的走卒，我们还会有“中国梦”的美好期许吗？
-　　马先生，我耐心地等到了今天上午九点，你们也该上班了，也有可能关注到我们的申诉。但是，没有。好吧，我决定发出这封信，得罪了。
-　　东方网总裁总编辑徐世平
+#多列布局 刘江龙 博客园
+[img title="image" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="image" src="http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135733565-636633711.png" width="323" height="166"](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135731299-707993306.png)
+![picture](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135733565-636633711.png)
+&gt; &lt;html&gt; &lt;head&gt;     &lt;meta charset="utf-8"&gt;     &lt;title&gt;两列布局&lt;/title&gt;     &lt;style type="text/css"&gt;     html,body,.body,.main,.side{         margin: 0;         padding: 0;         height: 100%;     }     .body{         width: 960px;         margin: 0 auto;     }     .main{         background-color: pink;     }     .side{         background-color: #bebebe;     }          .main{         float: left;         width: 660px;     }     .side{         float: right;         width: 300px;     }          .clearfix:after{         content: '.';         display: block;         clear: both;         height: 0;         overflow: hidden;         visibility: hidden;     }     &lt;/style&gt; &lt;/head&gt; &lt;body&gt; &lt;div class="body clearfix"&gt;     &lt;div class="side"&gt;side&lt;/div&gt;     &lt;div class="main"&gt;main&lt;/div&gt; &lt;/div&gt; &lt;/body&gt; &lt;/html&gt;&nbsp;
+[img title="image" style="border-top: 0px; border-right: 0px; background-image: none; border-bottom: 0px; padding-top: 0px; padding-left: 0px; border-left: 0px; display: inline; padding-right: 0px" border="0" alt="image" src="http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135742221-1300447152.png" width="1109" height="474"](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135738002-2125741320.png)
+![picture](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135742221-1300447152.png)
+main向 左浮动 ，side向右浮动。
+main定宽660px, side定宽300px
+在main和side 元素的父元素上加 
+，用来『清除浮动』，这样后续的元素就不会受到 main和side『浮动动作』的影响。
+，用来『清除浮动』，这样后续的元素就不会受到 main和side『浮动动作』的影响。&nbsp;
+&nbsp;
+[img title="image" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="image" src="http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135808908-1524079312.png" width="337" height="159"](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135744721-225695294.png)
+![picture](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135808908-1524079312.png)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+[img title="image" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="image" src="http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135813236-465393938.png" width="332" height="172"](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135810986-1787803654.png)
+![picture](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135813236-465393938.png)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+[img title="image" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="image" src="http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135822174-977319174.png" width="518" height="162"](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135817158-138475864.png)
+![picture](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135822174-977319174.png)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+[img title="image" style="border-left-width: 0px; border-right-width: 0px; background-image: none; border-bottom-width: 0px; padding-top: 0px; padding-left: 0px; display: inline; padding-right: 0px; border-top-width: 0px" border="0" alt="image" src="http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135915783-1710233814.png" width="718" height="183"](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135827643-1840807027.png)
+![picture](http://images2015.cnblogs.com/blog/601779/201611/601779-20161101135915783-1710233814.png)
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+>css float 属性介绍：
+[http://www.w3school.com.cn/css/css_positioning_floating.asp](http://www.w3school.com.cn/css/css_positioning_floating.asp)
+> 如果你使用 chrome浏览器，这里推荐给你一个浏览器插件(用于查看div 分布情况)&nbsp; 
+[Div Density](https://chrome.google.com/webstore/detail/div-density/akhjnfacldhnbhkpmhebkfocmheaicif?hl=zh-CN)

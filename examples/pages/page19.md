@@ -1,48 +1,101 @@
 ---
-title: AngularJs之Scope作用域
-date: 2016-11-04 14:48:35
+title: React实例入门教程(1)基础API,JSX语法
+date: 2016-11-07 15:51:47
 comments: true
 categories: HTML5
 ---
 
-#AngularJs之Scope作用域
-前言：
-上篇博文AngularJs之directive中说了Scope作用域是个大坑，所以拿出来作为重点总结！
-　　AngularJS 中，作用域是一个指向应用模型的对象，它是表达式的执行环境。作用域有层次结构，这个层次和相应的 DOM 几乎是一样的。作用域能监控表达式和传递事件。
-　　在 HTML 代码中，一旦一个 ng-app 指令被定义，那么一个作用域就产生了，由 ng-app 所生成的作用域比较特殊，它是一个根作用域（$rootScope），它是其他所有$Scope 的最顶层。
-　　除了用 ng-app 指令可以产生一个作用域之外，其他的指令如 ng-controller，ng-repeat 等都会产生一个或者多个作用域。此外，还可以通过 AngularJS 提供的创建作用域的工厂方法来创建一个作用域。这些作用域都拥有自己的继承上下文，并且根作用域都为$rootScope。
-　　在生成一个作用域之后，在编写 AngularJS 代码时，$scope 对象就代表了这个作用域的数据实体，我们可以在$scope 内定义各种数据类型，之后可以直接在 HTML 中以 {{变量名}} 方式来让 HTML 访问到这个变量。
-　　AngularJS 在创建一个作用域时，会检索上下文，如果上下文中已经存在一个作用域，那么这个新创建的作用域就会以 JavaScript 原型继承机制继承其父作用域的属性和方法。
-　　一些 AngularJS 指令会创建新的子作用域，并且进行原型继承： ng-repeat、ng-include、ng-switch、ng-view、ng-controller, 用 scope: true 和 transclude: true 创建的 directive。
-　　以下 HTML 中定义了三个作用域，分别是由 ng-app 指令所创建的$rootScope，parentCtrl 和 childCtrl 所创建的子作用域，这其中 childCtrl 生成的作用域又是 parentCtrl 的子作用域。
-　　继承作用域符合 JavaScript 的原型继承机制，这意味着如果我们在子作用域中访问一个父作用域中定义的属性，JavaScript 首先在子作用域中寻找该属性，没找到再从原型链上的父作用域中寻找，如果还没找到会再往上一级原型链的父作用域寻找。在 AngularJS 中，作用域原型链的顶端是$rootScope，AnguarJS 将会寻找到$rootScope 为止，如果还是找不到，则会返回 undefined。
-　　我们用实例代码说明下这个机制。首先，我们探讨下对于原型数据类型的作用域继承机制：
-测试运行结果：
-第一个输入框：
-　　虽然在 childCtrl 中没有定义具体的 args 属性，但是因为 childCtrl 的作用域继承自 parentCtrl 的作用域，因此，AngularJS 会找到父作用域中的 args 属性并设置到输入框中。而且，如果我们在第一个输入框中改变内容，内容将会同步的反应到第二个输入框。
-第二个输入框：
-　　第二个输入框的内容从此将不再和第一个输入框的内容保持同步。在改变第二个输入框的内容时，因为 HTML 代码中 model 明确绑定在 childCtrl 的作用域中，因此 AngularJS 会为 childCtrl 生成一个 args 原始类型属性。这样，根据 AngularJS 作用域继承原型机制，childCtrl 在自己的作用域找得到 args 这个属性，从而也不再会去寻找 parentCtrl 的 args 属性。从此，两个输入框的内容所绑定的属性已经是两份不同的实例，因此不会再保持同步。
-现将代码做如下修改，结合以上两个场景，会出现怎样的结果？
-测试结果是无论改变任何一个输入框的内容，两者的内容始终同步。
-　　根据 AngularJS 的原型继承机制，如果 ng-model 绑定的是一个对象数据，那么 AngularJS 将不会为 childCtrl 创建一个 args 的对象，自然也不会有 args.content 属性。这样，childCtrl 作用域中将始终不会存在 args.content 属性，只能从父作用域中寻找，也即是两个输入框的的变化其实只是在改变 parentCtrl 作用域中的 args.content 属性。因此，两者的内容始终保持同步。
-　　我们再看一个例子，分析结果如何。
-　　测试结果是两个输入框的内容永远不会同步。子作用域有实例数据对象，则不访问父作用域。
-　　独立作用域是 AngularJS 中一个非常特殊的作用域，它只在 directive 中出现。在对 directive 的定义中，我们添加上一个 scope:{} 属性，就为这个 directive 创建出了一个隔离作用域。
-　　独立作用域最大的特点是不会原型继承其父作用域，对外界的父作用域保持相对的独立。因此，如果在定义了孤立作用域的 AngularJS directive 中想要访问其父作用域的属性，则得到的值为 undefined。代码如下：
-　　上面的代码中通过在 directive 中声明了 scope 属性从而创建了一个作用域，其父作用域为 ctrl 所属的作用域。但是，这个作用域是孤立的，因此，它访问不到父作用域的中的任何属性。存在这样设计机制的好处是：能够创建出一些列可复用的 directive，这些 directive 不会相互在拥有的属性值上产生串扰，也不会产生任何副作用。
-　　在继承作用域中，我们可以选择子作用域直接操作父作用域数据来实现父子作用域的通信，而在独立作用域中，子作用域不能直接访问和修改父作用域的属性和值。为了能够使孤立作用域也能和外界通信，AngularJS 提供了三种方式用来打破独立作用域“孤立”这一限制。
-　　这是 AngularJS 独立作用域与外界父作用域进行数据通信中最简单的一种，绑定的对象只能是父作用域中的字符串值，并且为单向只读引用，无法对父作用域中的字符串值进行修改，此外，这个字符串还必须在父作用域的 HTML 节点中以 attr（属性）的方式声明。
-　　使用这种绑定方式时，需要在 directive 的 scope 属性中明确指定引用父作用域中的 HTML 字符串属性，否则会抛异常。示例代码如下：
-　　上面的代码，通过在 directive 中声明了 scope:{isolates:'@'} 使得 directive 拥有了父作用域中 data-isolates (isolates为自定义属性，不加data也可以，但建议加上data)这个 HTML 属性所拥有的值，这个值在控制器 ctrl 中被赋值为'nick'。所以，代码的运行结果是页面上有两个名为 nick的按钮。
-　　我们还注意到 link 函数中对 isolates 进行了修改，但是最终不会在运行结果中体现。这是因为 isolates 始终绑定为父作用域中的 btns 字符串，如果父作用域中的 btns 不改变，那么在孤立作用域中无论怎么修改 isolates 都不会起作用。
-　　通过这种形式的绑定，孤立作用域将有能力访问到父作用域中的函数对象，从而能够执行父作用域中的函数来获取某些结果。这种方式的绑定跟单向绑定一样，只能以只读的方式访问父作用函数，并且这个函数的定义必须写在父作用域 HTML 中的 attr（属性）节点上。
-　　这种方式的绑定虽然无法修改父作用域的 attr 所设定的函数对象，但是却可以通过执行函数来改变父作用域中某些属性的值，来达到一些预期的效果。示例代码如下：
-　　这个例子中，浏览器的控制台将会打印“Nick DeveloperWorks”文字。
-　　上面的代码中我们在父作用域中指定了一个函数对象$scope.func，在孤立作用域中通过对 HTML 属性的绑定从而引用了 func。需要注意的是 link 函数中对 func 对象的使用方法，$scope.isolates 获得的仅仅是函数对象，而不是调用这个对象，因此我们需要在调用完$scope.isolates 之后再调用这个函数，才能得到真正的执行结果。
-双向绑定赋予 AngularJS 孤立作用域与外界最为自由的双向数据通信功能。在双向绑定模式下，孤立作用域能够直接读写父作用域中的属性和数据。和以上两种孤立作用域定义数据绑定一样，双向绑定也必须在父作用域的 HTML 中设定属性节点来绑定。
-双向绑定非常适用于一些子 directive 需要频繁和父作用域进行数据交互，并且数据比较复杂的场景。不过，由于可以自由的读写父作用域中的属性和对象，所以在一些多个 directive 共享父作用域数据的场景下需要小心使用，很容易引起数据上的混乱。
-示例代码如下：
-　　上面的代码运行的结果是浏览器页面上出现三个按钮，其中第一个按钮标题为“DeveloperWorks”，第二和第三个按钮的标题为“NICK”。
-初始时父作用域中的$scope.btns.name为小写的“nick”，通过双向绑定，孤立作用域中将父作用域的 name改写成为大写的“NICK”并且直接生效，父作用域的值被更改。
-　　推荐：这篇关于作用域的文章也写的不错，可以看看！
- 
+#React实例入门教程(1)基础API,JSX语法
+　　毫无疑问，react是目前最最热门的框架(没有之一)，了解并学习使用React，可以说是现在每个前端工程师都需要的。
+　　在前端领域，一个框架为何会如此之火爆，无外乎两个原因：性能优秀，开发效率高。React当然集成了这两大优点。
+　　这要归功于React的两大特点，也是该框架一直强调的优势：
+　　1.虚拟dom与dom diff：在React中，一切的更新都是先更新虚拟dom，再根据react自带的dom diff 算法，进行对比计算，在实际dom中实现最小粒度的更新，这就是React性能优秀的原因了！
+　　2.一切皆是组件：React强调一切皆是组件，那么组件就是React的核心元素，在使用React开发时，开发人员会对各种颗粒进行组件化开发，自然而然的提升了代码复用度，提升了开发效率。
+　　本系列文章，每篇都会有个小实例，带领大家一步步的走进React开发的世界。
+　　
+文章预告　　　本系列文章分为
+　　React实例入门教程(1)基础API,JSX语法--hello world
+　　React实例入门教程(2)组件与组件的生命周期--弹窗组件
+　　React实例入门教程(3)数据流之props与state--实时更新的倒计时组件
+　　React实例入门教程(4)事件处理--事件丰富的swipe组件
+　　React实例入门教程(5)总结--咪咕阅读首页开发实战
+　　　　　　　　　　　　　　　　　　　　　　　　　
+LET'S START　　作为本系列教程的第一篇，按照国际惯例，我们先从HELLO WORLD 开始~，那么先看看本例的代码吧：
+　　
+```html
+<!DOCTYPE html>; 
+<html lang="en"> 
+	<head>     
+		<meta charset="UTF-8">     
+		<title>hello world</title>     
+		<script src="react.js"></script>     
+		<script src="react-dom.js"></script>     
+		<script src="browser.min.js"></script> 
+	</head> 
+	<body>     
+		<div id="demo"></div>     
+		<script type="text/babel">         
+			var Helloworld = React.createClass({ 
+				render:function(){  
+            		return <div>hello world</div>;             }         			});
+              ReactDOM.render(<Helloworld/>,document.getElementById("demo")); 
+        </script> 
+    </body> 
+</html>
+```
+　　以上代码需要注意：最后的<script>标签type是&ldquo;text/babel&rdquo;。因为React使用的是JSX语法，他与传统js语法不兼容，所以type要选择babel。
+　　最开始引入的js中，react和react-dom是react基础库，而browser.js是用来线上分析JSX语法的，真实项目上线中并不会引用这个，而是再上线前进行编译（使用工具babel等）转换成传统js语法再上线。（因为browser线上编译很影响性能）。为了方便大家的学习，现在这里直接引入了该js。
+从上面示例代码可以看到，我们使用一些API，这些API都是非常基础的，下面我来做简单的介绍：
+从上面示例代码可以看到，我们使用一些API，这些API都是非常基础的，下面我来做简单的介绍：　　
+React.createClass:　　　　前言里说到react一切皆是组件，那么React.createClass就是最基本的创建组件的方法，它的第一个传入参数是json对象，代表组件的主体，该json其中，有必带的和可选择的参数，其必带参数为render，类型是函数要求返回该组件的模版。
+　　使用方式可见篇头示例，具体细节会在后续组件章节中做介绍。
+　　
+ReactDOM.render:　　ReactDOM.render 是 React 的最基本方法，用于将模板(html，jsx,React.createElement等)转为 HTML ，并插入指定的 DOM 节点。
+　　看下面的示例代码
+
+```html
+ 　ReactDOM.render(<h1>HELLO,REACT!</h1>,document.getElementById("example")); 
+```
+
+　　就是将一段html结构输出到id为example浏览器，效果如下：
+![picture](http://images2015.cnblogs.com/blog/354376/201611/354376-20161102150429518-2077470571.png)
+&nbsp;
+　　JSX即JavaScript XML，即一种在React内部构建的标签语法，React不使用JSX一样可以工作，但是使用JSX可以让代码简洁，提高代码可读性，因此推荐使用：
+　　那么，我们来看看对比，前面示例代码中，使用了JSX语法的语句为：
+ <Helloword/> 　　如果不使用JSX语法将变成：
+ React.createElement("Helloword",{},""); 　　可见JSX语法的优势。
+　　那么让我们来学习JSX语法：
+　　JSX和HTML很像，但却不同于HTML，JSX中标签名可以是HTML标签，也可以是自己定义的组件，如前面示例中的Helloworld组件。那么我们来具体看看JSX与HTML的不同处和需要注意的地方：
+　　
+属性引用：　　
+```html
+ <div id="some-id" class="some-class" style="color:red;">...</div> 　　
+```
+JSX ：
+```html
+ <div id="someId" className={someClass} style={{color:red}}>...</div> 
+```
+　　如上示例所示，JSX语法中，属性的引入拥有HTML的方式（文本直接赋值）；也可以引用JS变量（如：someClass）,方式是使用大括号包裹，其中要注意的是，class在JSX中要写成className，style的 赋值要写成json的引入 ，如上例。
+　　
+条件判断：　　在JSX标签的属性中，我们可以使用条件判断来根据条件生成JSX，JSX允许的条件判断方式是，三目运算符，逻辑与(&amp;&amp;)运算符，使用变量，使用函数。
+　　看面的示例代码：
+　　给出一个函数：
+```html
+ function getNumber(){ 　return Math.floor(Math.random()*100); } 　　对应JSX片段：
+ 　　<div className={this.state.num>1?"demo1":"demo2"} >{getNumber()}</div> 　　这段jsx 会根据this.state.num值来选择对应的class，并随机生成数字来填充内容。
+```
+事件绑定JSX中，和HTML事件绑定类似，对应的事件名称为onClick,onChange等：
+JSX中，和HTML事件绑定类似，对应的事件名称为onClick,onChange等： 　　<div onClick={this.handleClick}>...</div> 　　
+特殊用法　　数组引入：
+```html
+ var jsxArr = [<div>1</div>,<div>2</div>,<div>3</div>,<div>4</div>]; ReactDOM.render(<div>{jsxArr}</div>,...);  输出的结果等同于 ReactDOM.render(<div><div>1</div><div>2</div><div>3</div><div>4</div></div>,...); 
+```
+JSX可以根据数组直接遍历产出JSX结构　　
+循环遍历：
+```html
+ var demos= ['demo1', 'demo2', 'demo3']; ReactDOM.render(   <div>   {     demos.map(function (demo) {       return <div>Hello, {demo}</div>     })   }   </div>,...);
+```
+产出的结果为：
+ Hello，demo1！ Hello，demo2！ Hello，demo3！  你看懂了么~
+
+以上就是对React 基础API，和 JSX语法的介绍讲解了，那么回头看看最初的示例代码，是不是已经了解如何使用了呢？

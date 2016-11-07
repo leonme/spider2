@@ -1,12 +1,8 @@
 ---
-title: h5曲线滑动确认 你好像很美味
-date: 2016-11-04 14:48:40
+title: [LeetCode] Distinct Subsequences [29]
+date: 2016-11-07 15:52:07
 comments: true
 categories: HTML5
 ---
 
-#h5曲线滑动确认 你好像很美味
-h5项目需根据几条弯曲的线条让用户进行曲线式滑动，滑动时需实时响应某些样式，于是就有了下面这个实例。（可自定义多个子对象大小分别放在线条各处，以增加曲线滑动确认精度。）
-
-
- 
+#[LeetCode] Distinct Subsequences [29]

@@ -1,39 +1,63 @@
 ---
-title: 发布：.NET开发人员必备的可视化调试工具（你值的拥有）
-date: 2016-11-04 14:48:33
+title: 遍历节点树 青竹zzq
+date: 2016-11-07 15:51:38
 comments: true
 categories: HTML5
 ---
 
-#发布：.NET开发人员必备的可视化调试工具（你值的拥有）
-2：解压RAR后执行：CYQ.VisualierSetup.exe 成功后关掉提示窗口即可。
-PS：一次运行，支持各个VS版本，终身提高调试的效率，而且没任何副作用。
-后续升级获取地址：https://github.com/cyq1162/cyqdata 在文档目录下。
+#遍历节点树 青竹zzq
+从以下属性读出来的信息可以让我们了解相邻节点之间的关系。
 
+childNodes属性将返回一个数组，这个数组由给定元素节点的子节点构成：
 
+nodeList = node.childNodes
+这个属性返回的数组是一个nodeList集合。这个nodeList集合里的每个节点都是一个节点对象。这些节点对象都有着nodeType、nodeName、nodeValue等常见的节点属性。
+文本节点和属性节点都不可能包含任何的子节点，所以他们的childNodes属性永远返回一个空数组。
+　　如果只是想知道某个元素有没有子节点，可以使用hasChildNodes方法。
+　　如果想知道某个元素有多少个节点，请使用childNodes数组的length属性：
 
-1：System.Drawing.Image：（这个转图片查看）
-2：MDataTable系列：表、行、列、结构
-3：DataTable系列：表、行、列、结构
-4：泛型系列：Dictionary<,>、LinkedList<>、List<>、Queue<>、SortedDictionary<,>、SortedList<,>、Stack<>
-5：非泛型系列：ArrayList、Hashtable、Queue、SortedList、Stack
-6：其它继承自：Enumerable 接口的类型：（类型太多，未来得及一一测试）
-BitArray、ReadOnlyCollectionBase、HybridDictionary、ListDictionary、StringCollection、StringDictionary、BaseCollection等
-关于可视化调试这一块内容，网上一搜，相关的信息全部是我自己以前发过的文章，悲催就一个字。。。。
-看来没啥人研究这一块，好在苍天不负有心人，还是被我突围了。。。。。
-能出来这么简易的工具，经历的过程是：
-2：收集了不同的VS版本的DLL（Microsoft.VisualStudio.DebuggerVisualizers.dll）。
-4：想到了复制多个项目文件来实现多个VS版本编绎（如果想不到这个，估计也不会折腾）：
+node.childNodes.length
+即使元素只有一个子节点，childNodes属性也将返回一个节点数组而不是返回一个单个的节点，此时，childNodes数组的length的长度值将是1，比如说，如果某个网页上的document元素只有html元素这个子节点，那么document.childNodes[0].nodeName值将是HTML。
+childNodes属性是一个只读属性，如果需要给某个元素增加子节点，可以使用appendChild()或insertBefore()方法；如果需要删除某个元素节点，可以使用removeChild()方法；在使用这几个方法曾、减某个元素子节点时，这个元素childNodes属性也将自动刷新。
 
-5：解决了系列化问题（才能大规模的支持各种类型）：
-默认情况下，不支持系列化的类是不支持可视化的，因此，想支持DataRow查看都不行，会直接抛异常。
-为了解决这一问题，进行了互联网搜索（相关信息，国内基本是我自己的文章，国外好不容易搜到一篇）。
-通过研究，终于解决了这一难题：
-自定义数据源，在设置数据源时，把对象转换成MDataTable，再由MDataTable去系列过去。
-6：MDataTable要支持和大量类型的转换工作（这些年的工作已经完成了不少，只需要再补全即可）。
-上一篇文章发布的时候，有网友还看不懂是用来干什么，一个唉~~~字了了。
-这一次，在集满了所有的条件之下，花了一天的研究时间，直接写成了工具分享给你。
-而你只要下载，再轻轻双击一下，就得能得良好的调试体验！
-在你开发调试的过程中，可以很轻松的查看变量的所有数据！！！
-妈妈再也不用担心你的调试能力了~~~
-不要问我理由~~~我不是雷锋塔下的雷~~~
+firstChild
+
+reference = node.firstChild
+这个属性返回一个节点对象的引用指针，这个节点对象有nodeType、nodeName、nodeValue等常见属性。
+文本节点和属性节点不可能在包含任何的子节点，所以他们的firstChild属性永远会返回null。
+firstChild是一个只读属性。
+
+lastChild
+lastChild：属性将返回一个给定元素的最后一个子节点：
+
+reference = node.lastChild
+这个属性返回一个节点对熊引用指针，这个节点对象都有着nodeType、nodeName、nodeValue等常见节点属性。
+文本节点属性和属性节点属性都不可能在包含任何子节点，所以lastChild属性永远返回null。
+某个元素的lastChild属性等价于元素childNodes节点集合的最后一个节点：
+
+refrence = node.childNodes[element.childNodes.lelgth-1]
+如果想知道某个元素有没有子节点，可以使用hasChildNodes方法，如果某个节点没有任何子节点，它的lastChild属性将返回null。
+lastChild属性是一个只读属性。
+
+nextSibing
+nextSibing属性将返回一个给定节点的下一个子节点：
+
+reference = node.nextSibing
+这个属性返回一个节点对象引用指针，这个节点对象都有着nodeType、nodeName、nodeValue等常见属性。
+如果给定节点后面没有同属于父节点的节点，它的nextSibling属性将返回null。
+nextSibling属性是一个只读属性。
+
+parentNode
+parentNode属性将返回一个给定节点的父节点：
+
+reference = node.parentNode
+这个属性返回一个节点对象的引用指针，这个节点对象都有着nodeType、nodeName、nodeValue等常见节点属性。
+parentNode属性返回的节点永远是一个元素节点，因为只有元素节点才有可能包含子节点，唯一的例外是document节点，他没有父节点，换句话说，document节点的parentNode属性将返回null。
+parentNode属性是一个只读属性。
+
+previousSibling
+
+reference  = node.previousSibling
+这个属性返回前一个节点对象的引用指针，这个节点对象都有着nodeType、nodeName、nodeValue等常见节点属性。
+　　如果没有前一个元素节点返回null。
+　　previousSibling属性是一个只读属性。
